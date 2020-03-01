@@ -42,6 +42,11 @@
         "ratio": "cpp",
         "thread": "cpp",
         "iterator": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "functional": "cpp",
+        "list": "cpp",
+        "xthread": "cpp",
+        "unordered_map": "cpp",
+        "xhash": "cpp"
     }
 }
