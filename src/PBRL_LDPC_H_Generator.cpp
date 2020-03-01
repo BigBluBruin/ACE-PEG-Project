@@ -17,7 +17,7 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
     unsigned column_number = proto_matrix[0].size();
 
     //first step: we design H_HRC and H_IRC together
-    for (unsigned column = 0; column <= high_rate_column_ind; column++)
+    for (int column = 0; column <= high_rate_column_ind; column++)
     {
         // generate column vectror
         column_vector.clear();
@@ -40,7 +40,7 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
                     temp_parity_check = parity_check_matrix;
                     add_new_colum_circulant(temp_parity_check, column_circulant);
                     rank_check_matrix.clear();
-                    for (unsigned jj = 0; jj < (column + 1) * cirsize; jj++)
+                    for (int jj = 0; jj < (column + 1) * cirsize; jj++)
                     {
                         rank_check_matrix.push_back(temp_parity_check[jj]);
                     }

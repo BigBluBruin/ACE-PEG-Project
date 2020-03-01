@@ -17,7 +17,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
     std::vector<std::vector<int>> p(2);        //[0] -> check node; [1] -> variable node
     int p_tempt;
     int zero = 0;
-    std::vector<int> node_set_kids, node_set_parents;
+    std::vector<std::vector<int>> node_set_kids, node_set_parents;
     std::vector<int> his_kids, this_kid;
     bool not_appear;
     int node_type_kid, node_type_parent;
@@ -29,12 +29,14 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
     {
         node_ace[1][ii] = std::max(zero, (int)vn_neighbor[ii].size() - 2);
     }
+    display(node_ace);
+    std::cout<<"-------"<<std::endl;
     p[0].assign(cn_neighbor.size(), 10000);
     p[1].assign(vn_neighbor.size(), 10000);
+    p[1][starting_v]=node_ace[1][starting_v];
     node_set_parents.clear();
-    node_set_parents.push_back(starting_v);
-
-    for (int l = 1; l < d_ace; l++)
+    node_set_parents.push_back({-1,starting_v});
+    for (int l = 1; l <= d_ace; l++)
     {
         if (l % 2 == 0)
         {
@@ -54,21 +56,23 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
         else
         {
             node_set_kids.clear();
-            for (auto this_parent : node_set_parents)
+            for (int kk=0;kk<node_set_parents.size();kk++)
             {
                 if (node_type_parent == 0)
                 {
-                    his_kids = cn_neighbor[this_parent];
+                    his_kids = cn_neighbor[node_set_parents[kk][1]];
                 }
                 else
                 {
-                    his_kids = cn_neighbor[this_parent];
+                    his_kids = vn_neighbor[node_set_parents[kk][1]];
                 }
                 for (const auto this_kid : his_kids)
                 {
-                    if (this_kid != this_parent)
+                    if (this_kid != node_set_parents[kk][0])
                     {
-                        p_tempt = p[node_type_parent][this_parent] + node_ace[node_type_kid][this_kid];
+                        
+                        p_tempt = p[node_type_parent][node_set_parents[kk][1]] + node_ace[node_type_kid][this_kid];
+                        //std::cout<<p_tempt<<std::endl;
                         if (p_tempt + p[node_type_kid][this_kid] - node_ace[1][starting_v] - node_ace[node_type_kid][this_kid] < eta_ace)
                         {
                             std::cout << "Info: find ACE=" << p_tempt + p[node_type_kid][this_kid] - node_ace[1][starting_v] - node_ace[node_type_kid][this_kid] << ". Exit.." << std::endl;
@@ -78,10 +82,11 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
                         {
                             if (p_tempt < p[node_type_kid][this_kid])
                             {
+                                p[node_type_kid][this_kid]=p_tempt;
                                 not_appear = true;
                                 for (unsigned jj = 0; jj < node_set_kids.size(); jj++)
                                 {
-                                    if (node_set_kids[jj] == this_kid)
+                                    if (node_set_kids[jj][1] == this_kid)
                                     {
                                         not_appear = false;
                                         break;
@@ -89,7 +94,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
                                 }
                                 if (not_appear)
                                 {
-                                    node_set_kids.push_back(this_kid);
+                                    node_set_kids.push_back({node_set_parents[kk][1],this_kid});                                    
                                 }
                             }
                         }
@@ -97,7 +102,19 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
                 }
             }
         }
-        node_set_parents=node_set_kids;
+
+
+        //display part       
+        // std::cout<<"l="<<l<<". "<<std::endl;
+        // std::cout<<"kid set is :"<< std::endl;
+        // for(const auto aa: node_set_kids)
+        //     std::cout<<aa[1]<<" ";
+        // std::cout<<std::endl;
+        // std::cout<<"p value is :"<<std::endl;
+        // for(const auto aa: node_set_kids)
+        //     std::cout<<p[node_type_kid][aa[1]]<<" ";
+        // std::cout<<std::endl;
+        // node_set_parents=node_set_kids;
     }
     std::cout<<"Info: ACE dectection passed ..."<<std::endl;
     return true;
@@ -260,10 +277,24 @@ void display(std::vector<std::vector<int>> mat, int row, int col)
 
 void display(std::vector<std::vector<int>> mat)
 {
-     for (unsigned i = 0; i < mat.size(); i++) 
-    { 
-        for (unsigned j = 0; j < mat[0].size(); j++) 
-            printf("  %d", mat[i][j]); 
-        printf("\n"); 
-    } 
+    for (unsigned i = 0; i < mat.size(); i++)
+    {
+        if (mat[i].size() == 0)
+        {
+            std::cout << "*****empty line*****" << std::endl;
+        }
+        else
+        {
+            for (unsigned j = 0; j < mat[i].size(); j++)
+                printf("  %d", mat[i][j]);
+            printf("\n");
+        }
+    }
+}
+
+void display(std::vector<int> mat)
+{
+    for(const auto aa:mat)
+        std::cout<<aa <<"  ";
+    std::cout<<std::endl;
 }
