@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/ACE_toolbox.h
+vector
+-
+iostream
+-
+algorithm
+-
+chrono
+-
+thread
+-
+
+/mnt/e/Gitrepo/ACE-PEG-Project/src/ACE_toolbx.cpp
+ACE_toolbox.h
+/mnt/e/Gitrepo/ACE-PEG-Project/src/ACE_toolbox.h
+
+/mnt/e/Gitrepo/ACE-PEG-Project/src/main.cpp
+ACE_toolbox.h
+-
+
