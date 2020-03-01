@@ -13,3 +13,4 @@ std::vector<std::vector<int>> find_vn_neighbers(std::vector<std::vector<int>> & 
 int rankOfMatrix(std::vector<std::vector<int>> mat) ;
 void swap(std::vector<std::vector<int>> mat, int row1, int row2, int col);
 void display(std::vector<std::vector<int>> mat, int row, int col) ;
+void display(std::vector<std::vector<int>> mat) ;

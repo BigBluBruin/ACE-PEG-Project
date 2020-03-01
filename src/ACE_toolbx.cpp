@@ -257,3 +257,13 @@ void display(std::vector<std::vector<int>> mat, int row, int col)
         printf("\n"); 
     } 
 } 
+
+void display(std::vector<std::vector<int>> mat)
+{
+     for (unsigned i = 0; i < mat.size(); i++) 
+    { 
+        for (unsigned j = 0; j < mat[0].size(); j++) 
+            printf("  %d", mat[i][j]); 
+        printf("\n"); 
+    } 
+}

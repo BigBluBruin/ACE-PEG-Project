@@ -44,6 +44,8 @@ std::vector<std::vector<int>> single_circulant_generator(int num, int cirsize)
             cur_point=(cur_point+1)%cirsize;
         }
     }
+
+    return circulant;
 }
 
 std::vector<std::vector<int>> identity_circulant_generator(int cirsize)
@@ -65,12 +67,12 @@ std::vector<std::vector<int>> column_circulant_generator(std::vector<int> column
     for (unsigned ii=0 ; ii<column_vector.size();ii++)
     {
         start=ii*cirsize;
-        end=ii*cirsize-1;
+        end=(ii+1)*cirsize-1;
         if(column_vector[ii]>0)
         {
             cur_circulant=single_circulant_generator(column_vector[ii], cirsize);
             row=0;
-            for( unsigned jj=start; jj<=end; jj++)
+            for( int jj=start; jj<=end; jj++)
             {
                 column_circulant[jj]=cur_circulant[row];
                 row++;
@@ -92,7 +94,7 @@ std::vector<std::vector<int>> column_circulant_generator(std::vector<int> column
         for (unsigned ii = 0; ii < column_vector.size(); ii++)
         {
             start = ii * cirsize;
-            end = ii * cirsize - 1;
+            end = (ii+1) * cirsize - 1;
             if (column_vector[ii] > 0)
             {
                 if(column_vector[ii]!=1)
@@ -101,7 +103,7 @@ std::vector<std::vector<int>> column_circulant_generator(std::vector<int> column
                 }
                 cur_circulant = identity_circulant_generator(cirsize);
                 row = 0;
-                for (unsigned jj = start; jj <= end; jj++)
+                for (int jj = start; jj <= end; jj++)
                 {
                     column_circulant[jj] = cur_circulant[row];
                     row++;
@@ -119,8 +121,8 @@ std::vector<std::vector<int>> column_circulant_generator(std::vector<int> column
 
 void add_new_colum_circulant(std::vector<std::vector<int>> & parity_check, std::vector<std::vector<int>> &new_column_circulant)
 {
-    for(unsigned ii=0 ; ii<parity_check.size; ii++)
+    for(unsigned ii=0 ; ii<parity_check.size(); ii++)
     {
-        std::copy(new_column_circulant[ii].begin(),new_column_circulant[ii].end(),std::back_insert_iterator(parity_check[ii]));
+        std::copy(new_column_circulant[ii].begin(),new_column_circulant[ii].end(),std::back_inserter(parity_check[ii]));
     }
 }
