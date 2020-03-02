@@ -29,6 +29,8 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
     {
         node_ace[1][ii] = std::max(zero, (int)vn_neighbor[ii].size() - 2);
     }
+
+
     // display(node_ace);
     // std::cout<<"-------"<<std::endl;
     p[0].assign(cn_neighbor.size(), 10000);
@@ -93,7 +95,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
                                 }
                                 if (not_appear)
                                 {
-                                    node_set_kids.push_back({node_set_parents[kk][1],this_kid});                                    
+                                    node_set_kids.push_back({node_set_parents[kk][1],this_kid});
                                 }
                             }
                         }
@@ -101,9 +103,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
                 }
             }
         }
-
-
-        //display part       
+        //display part
         // std::cout<<"l="<<l<<". "<<std::endl;
         // std::cout<<"kid set is :"<< std::endl;
         // for(const auto aa: node_set_kids)
@@ -113,7 +113,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
         // for(const auto aa: node_set_kids)
         //     std::cout<<p[node_type_kid][aa[1]]<<" ";
         // std::cout<<std::endl;
-        // node_set_parents=node_set_kids;
+        node_set_parents=node_set_kids;
     }
     //std::cout<<"Info: ACE dectection passed ..."<<starting_v<<std::endl;
     return true;
@@ -177,11 +177,15 @@ int rankOfMatrix(std::vector<std::vector<int>> mat)
   
     for (int row = 0; row < rank; row++) 
     { 
+        if(row==R)
+        {
+            return R;
+        }
         
         // Before we visit current row 'row', we make 
         // sure that mat[row][0],....mat[row][row-1] 
         // are 0. 
-  
+
         // Diagonal element is not zero
         if (mat[row][row])
         {
@@ -248,7 +252,24 @@ int rankOfMatrix(std::vector<std::vector<int>> mat)
         // Uncomment these lines to see intermediate results
         //  display(mat, R, C);
         //  printf("\n");
-         //std::cout<<row<<std::endl;
+        //std::cout<<row<<std::endl;
+        // if (C==1032)
+        // {
+        //     std::cout<<row<<std::endl;
+        // }
+        // if(row==257&&C==1032)
+        // {
+        //     std::ofstream myfile("check.txt");
+        //     for(auto aa:mat)
+        //     {
+        //         for(auto bb:aa)
+        //         {
+        //             myfile<<bb<<"  ";
+        //         }
+        //         myfile<<std::endl;
+        //     }
+        //     myfile.close();
+        // }
     }
     return rank;
 }

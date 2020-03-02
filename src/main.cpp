@@ -14,8 +14,8 @@ int main()
         {1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0},
         {2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1}
         };
-    int high_rate_row=2;
-    int high_rate_column=10;
+    int high_rate_row=1;
+    int high_rate_column=9;
     int d_ace=5;
     int eta_ace=3;
     int cir_size=129;
