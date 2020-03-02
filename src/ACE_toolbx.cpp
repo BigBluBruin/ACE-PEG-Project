@@ -55,6 +55,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
             std::cout << "There is no node in parent set. Returned Success" << std::endl;
             return true;
         }
+        
         else
         {
             node_set_kids.clear();
