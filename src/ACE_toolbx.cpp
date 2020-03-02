@@ -29,8 +29,8 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
     {
         node_ace[1][ii] = std::max(zero, (int)vn_neighbor[ii].size() - 2);
     }
-    display(node_ace);
-    std::cout<<"-------"<<std::endl;
+    // display(node_ace);
+    // std::cout<<"-------"<<std::endl;
     p[0].assign(cn_neighbor.size(), 10000);
     p[1].assign(vn_neighbor.size(), 10000);
     p[1][starting_v]=node_ace[1][starting_v];
@@ -56,7 +56,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
         else
         {
             node_set_kids.clear();
-            for (int kk=0;kk<node_set_parents.size();kk++)
+            for (unsigned kk=0;kk<node_set_parents.size();kk++)
             {
                 if (node_type_parent == 0)
                 {
@@ -72,7 +72,6 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
                     {
                         
                         p_tempt = p[node_type_parent][node_set_parents[kk][1]] + node_ace[node_type_kid][this_kid];
-                        //std::cout<<p_tempt<<std::endl;
                         if (p_tempt + p[node_type_kid][this_kid] - node_ace[1][starting_v] - node_ace[node_type_kid][this_kid] < eta_ace)
                         {
                             std::cout << "Info: find ACE=" << p_tempt + p[node_type_kid][this_kid] - node_ace[1][starting_v] - node_ace[node_type_kid][this_kid] << ". Exit.." << std::endl;
@@ -116,7 +115,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
         // std::cout<<std::endl;
         // node_set_parents=node_set_kids;
     }
-    std::cout<<"Info: ACE dectection passed ..."<<std::endl;
+    //std::cout<<"Info: ACE dectection passed ..."<<starting_v<<std::endl;
     return true;
 }
 
@@ -178,7 +177,7 @@ int rankOfMatrix(std::vector<std::vector<int>> mat)
   
     for (int row = 0; row < rank; row++) 
     { 
-        std::cout<<rank<<std::endl;
+        
         // Before we visit current row 'row', we make 
         // sure that mat[row][0],....mat[row][row-1] 
         // are 0. 
@@ -227,35 +226,34 @@ int rankOfMatrix(std::vector<std::vector<int>> mat)
                 { 
                     swap(mat, row, i, rank); 
                     reduce = false; 
+                    //std::cout<<"here"<<std::endl;
                     break ; 
                 } 
-            } 
-  
+            }  
             // If we did not find any row with non-zero 
             // element in current columnm, then all 
             // values in this column are 0. 
             if (reduce) 
             { 
                 // Reduce number of columns 
-                rank--; 
-  
+                rank--;  
                 // Copy the last column here 
                 for (int i = 0; i < R; i ++) 
                     mat[i][row] = mat[i][rank]; 
             }
-
             // Process this row again
             row--;
         }
 
         // Uncomment these lines to see intermediate results
-        // display(mat, R, C);
-        // printf("\n");
+        //  display(mat, R, C);
+        //  printf("\n");
+         //std::cout<<row<<std::endl;
     }
     return rank;
 }
 
-void swap(std::vector<std::vector<int>> mat, int row1, int row2,  int col) 
+void swap(std::vector<std::vector<int>> & mat, int row1, int row2,  int col) 
 { 
     for (int i = 0; i < col; i++) 
     { 

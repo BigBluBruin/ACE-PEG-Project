@@ -1,7 +1,7 @@
 #pragma once
 #include "ACE_toolbox.h"
 #include "CPEG_toolbox.h"
-
+#include <fstream>
 
 /*
     This packges generates full parity chek matrix of PBRL-LDPC

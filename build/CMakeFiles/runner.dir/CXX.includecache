@@ -37,6 +37,8 @@ ACE_toolbox.h
 ../include/ACE_toolbox.h
 CPEG_toolbox.h
 ../include/CPEG_toolbox.h
+fstream
+-
 
 /mnt/d/GitRepo/ACE-PEG-Project/src/ACE_toolbx.cpp
 ACE_toolbox.h
@@ -55,4 +57,6 @@ ACE_toolbox.h
 -
 CPEG_toolbox.h
 -
+PBRL_LDPC_H_Generator.h
+/mnt/d/GitRepo/ACE-PEG-Project/src/PBRL_LDPC_H_Generator.h
 
