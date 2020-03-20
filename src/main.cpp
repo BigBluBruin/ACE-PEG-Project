@@ -14,12 +14,17 @@ int main()
         {1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0},
         {2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1}
         };
-    int high_rate_row=1;
-    int high_rate_column=9;
+
+    
+    int high_rate_row_ind=1;
+    int high_rate_column_ind=9;
     int d_ace=5;
     int eta_ace=3;
-    int cir_size=129;
-    std::vector<std::vector<int>> maxrix=ACE_PEG_generator(protomatrix,high_rate_row,high_rate_column,cir_size,d_ace,eta_ace);
+    int pre_lifting_size=8;
+    int cir_size= 64;
+
+    std::vector<std::vector<int>> pre_lifted_matrix = pre_lifter(protomatrix,pre_lifting_size,high_rate_column_ind);
+    std::vector<std::vector<int>> maxrix=ACE_PEG_generator(pre_lifted_matrix,(high_rate_row_ind+1)*pre_lifting_size-1,(high_rate_column_ind+1)*pre_lifting_size-1,cir_size,d_ace,eta_ace);
 
     // std::vector<std::vector<int>> mat{
     //     {1,1,0,0},

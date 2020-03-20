@@ -1,5 +1,47 @@
 #include "PBRL_LDPC_H_Generator.h"
 
+std::vector<std::vector<int>> pre_lifter(std::vector<std::vector<int>> proto_matrix, int cirsize,int high_rate_column_ind)
+{
+    std::vector<std::vector<int>> parity_check_matrix(proto_matrix.size()*cirsize), temp_parity_check, rank_check_matrix, column_circulant, cn_neighors, vn_neighbors;
+    unsigned row_number = proto_matrix.size();
+    unsigned column_number = proto_matrix[0].size();
+    std::vector<int> column_vector;
+    for (int column = 0; column <= high_rate_column_ind; column++)
+    {
+         // generate column vectror
+        std::cout<<"Info: Start to pre-lift column circulant for column "<<column<<"..."<<std::endl;
+        column_vector.clear();
+        for (unsigned jj = 0; jj < row_number; jj++)
+        {
+            column_vector.push_back(proto_matrix[jj][column]);
+        }
+        column_circulant=column_circulant_generator(column_vector, cirsize);
+        add_new_colum_circulant(parity_check_matrix, column_circulant);
+    }
+
+    // insert identity matrices to each column
+    for (unsigned column = high_rate_column_ind+1; column < column_number; column++)
+    {
+        // generate column vectror
+        std::cout<<"Info: Start to pre-lift circulant for column "<<column<<"..."<<std::endl;
+        column_vector.clear();
+        for (unsigned jj = 0; jj < row_number; jj++)
+        {
+            column_vector.push_back(proto_matrix[jj][column]);
+        }
+        column_circulant=column_circulant_generator(column_vector, cirsize,"identity");
+        add_new_colum_circulant(parity_check_matrix, column_circulant);
+        std::cout<<"Indentity added: Successfully."<<std::endl;
+    }
+
+    std::cout<<"Prelifted-Parity Check Matrix is successfully generated!"<<std::endl;
+    std::cout<<"codeword length(n): "<<parity_check_matrix[0].size();
+    std::cout<<"parity length(k): "<<parity_check_matrix.size();
+    return parity_check_matrix;
+}
+
+
+
 std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> proto_matrix, int high_rate_row_ind,
                                                 int high_rate_column_ind, int cirsize, int d_ace, int eta_ace)
 {
@@ -15,7 +57,7 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
     unsigned row_number = proto_matrix.size();
     unsigned column_number = proto_matrix[0].size();
     int ace_try_time;
-    int total_time=5; // maximum 10000 times search
+    int total_time=10; // maximum 10000 times search
     int residule=high_rate_row_ind+1;
     bool find_full_rank_matrix=false;
     //first step: we design H_HRC and H_IRC together
@@ -52,7 +94,7 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
                     std::cout<<"rank_check_matrix size: ("<<rank_check_matrix.size()<<", "<<rank_check_matrix[0].size()<<")."<<std::endl;
                     int rank=rankOfMatrix(rank_check_matrix);
                     std::cout<<"here"<<std::endl;
-                    if(rank==(high_rate_row_ind+1-residule+1)*cirsize)
+                    if(rank>=(high_rate_row_ind+1-residule+1)*cirsize)
                     {                       
                         residule--;
                         std::cout<<"try time "<<jj<<". Success to find full rank matrix. "<<residule<<"left. "<<std::endl;
@@ -60,7 +102,7 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
                     }
                     else
                     {
-                       std::cout<<"try time "<<jj<<". Fail to find full rank matrix. This rank is :"<< rank<<std::endl;
+                       std::cout<<"try time "<<jj<<". Fail to find full rank matrix. This rank is :"<< rank<<"--we want it to be: "<<(high_rate_row_ind+1-residule+1)*cirsize<<std::endl;
                     }               
                 }
                 if (residule == 0)
@@ -127,6 +169,11 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
     std::cout<<"parity length(k): "<<parity_check_matrix.size();
     return parity_check_matrix;
 }
+
+
+
+
+
 
 // if (rank == 257)
 // {
