@@ -48,6 +48,8 @@
         "xthread": "cpp",
         "unordered_map": "cpp",
         "xhash": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "cctype": "cpp",
+        "string": "cpp"
     }
 }

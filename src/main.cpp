@@ -2,6 +2,7 @@ using namespace std;
 #include <ACE_toolbox.h>
 #include <CPEG_toolbox.h>
 #include "PBRL_LDPC_H_Generator.h"
+#include "read_H_matrix.h"
 
 // Driver program to test above functions
 int main()
@@ -23,8 +24,16 @@ int main()
     int pre_lifting_size=8;
     int cir_size= 64;
 
-    std::vector<std::vector<int>> pre_lifted_matrix = pre_lifter(protomatrix,pre_lifting_size,high_rate_column_ind);
-    std::vector<std::vector<int>> maxrix=ACE_PEG_generator(pre_lifted_matrix,(high_rate_row_ind+1)*pre_lifting_size-1,(high_rate_column_ind+1)*pre_lifting_size-1,cir_size,d_ace,eta_ace);
+    // std::vector<std::vector<int>> pre_lifted_matrix = pre_lifter(protomatrix,pre_lifting_size,high_rate_column_ind);
+    // std::vector<std::vector<int>> maxrix=ACE_PEG_generator(pre_lifted_matrix,(high_rate_row_ind+1)*pre_lifting_size-1,(high_rate_column_ind+1)*pre_lifting_size-1,cir_size,d_ace,eta_ace);
+
+    // rank of matrix
+    std::vector<std::vector<int>> H;
+    int rank;
+    std::string filename="H_minLUT_classic.txt";
+    get_whole_H(H,filename,"classic");
+    rank = rankOfMatrix(H);
+    std::cout<<"rank: "<<rank<<std::endl;
 
     // std::vector<std::vector<int>> mat{
     //     {1,1,0,0},

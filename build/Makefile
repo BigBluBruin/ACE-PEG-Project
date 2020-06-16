@@ -231,6 +231,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/runner.dir/build.make CMakeFiles/runner.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/read_H_matrix.o: src/read_H_matrix.cpp.o
+
+.PHONY : src/read_H_matrix.o
+
+# target to build an object file
+src/read_H_matrix.cpp.o:
+	$(MAKE) -f CMakeFiles/runner.dir/build.make CMakeFiles/runner.dir/src/read_H_matrix.cpp.o
+.PHONY : src/read_H_matrix.cpp.o
+
+src/read_H_matrix.i: src/read_H_matrix.cpp.i
+
+.PHONY : src/read_H_matrix.i
+
+# target to preprocess a source file
+src/read_H_matrix.cpp.i:
+	$(MAKE) -f CMakeFiles/runner.dir/build.make CMakeFiles/runner.dir/src/read_H_matrix.cpp.i
+.PHONY : src/read_H_matrix.cpp.i
+
+src/read_H_matrix.s: src/read_H_matrix.cpp.s
+
+.PHONY : src/read_H_matrix.s
+
+# target to generate assembly for a file
+src/read_H_matrix.cpp.s:
+	$(MAKE) -f CMakeFiles/runner.dir/build.make CMakeFiles/runner.dir/src/read_H_matrix.cpp.s
+.PHONY : src/read_H_matrix.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -252,6 +279,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/read_H_matrix.o"
+	@echo "... src/read_H_matrix.i"
+	@echo "... src/read_H_matrix.s"
 .PHONY : help
 
 

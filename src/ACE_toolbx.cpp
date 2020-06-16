@@ -175,11 +175,13 @@ int rankOfMatrix(std::vector<std::vector<int>> mat)
     int C = (int) mat[0].size();
 
     int rank = C; 
-  
+    //std::cout<<R<<" "<<C<<std::endl;
     for (int row = 0; row < rank; row++) 
     { 
+        
         if(row==R)
         {
+            
             return R;
         }
         
