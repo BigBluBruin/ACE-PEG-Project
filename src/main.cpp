@@ -8,32 +8,34 @@ using namespace std;
 int main()
 {
 
-    std::vector<std::vector<int>> protomatrix{
-        {3, 3, 3, 3, 1, 1, 1, 2, 1, 1, 0, 0, 0},
-        {1, 1, 1, 1, 3, 3, 3, 1, 2, 2, 0, 0, 0},
-        {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-        {1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0},
-        {2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1}
-        };
+    // std::vector<std::vector<int>> protomatrix{
+    //     {3, 3, 3, 3, 1, 1, 1, 2, 1, 1, 0, 0, 0},
+    //     {1, 1, 1, 1, 3, 3, 3, 1, 2, 2, 0, 0, 0},
+    //     {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+    //     {1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0},
+    //     {2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1}
+    //     };
+
+    std::vector<std::vector<int>> protomatrix{{7, 3, 2, 2}};
 
     
-    int high_rate_row_ind=1;
-    int high_rate_column_ind=9;
-    int d_ace=5;
-    int eta_ace=3;
+    int high_rate_row_ind=0;
+    int high_rate_column_ind=3;
+    int d_ace=3;
+    int eta_ace=2;
     int pre_lifting_size=8;
-    int cir_size= 64;
+    int cir_size= 32;
 
-    // std::vector<std::vector<int>> pre_lifted_matrix = pre_lifter(protomatrix,pre_lifting_size,high_rate_column_ind);
-    // std::vector<std::vector<int>> maxrix=ACE_PEG_generator(pre_lifted_matrix,(high_rate_row_ind+1)*pre_lifting_size-1,(high_rate_column_ind+1)*pre_lifting_size-1,cir_size,d_ace,eta_ace);
+    std::vector<std::vector<int>> pre_lifted_matrix = pre_lifter(protomatrix,pre_lifting_size,high_rate_column_ind);
+    std::vector<std::vector<int>> maxrix=ACE_PEG_generator(pre_lifted_matrix,(high_rate_row_ind+1)*pre_lifting_size-1,(high_rate_column_ind+1)*pre_lifting_size-1,cir_size,d_ace,eta_ace);
 
     // rank of matrix
-    std::vector<std::vector<int>> H;
-    int rank;
-    std::string filename="H_minLUT_classic.txt";
-    get_whole_H(H,filename,"classic");
-    rank = rankOfMatrix(H);
-    std::cout<<"rank: "<<rank<<std::endl;
+    // std::vector<std::vector<int>> H;
+    // int rank;
+    // std::string filename="H_minLUT_classic.txt";
+    // get_whole_H(H,filename,"classic");
+    // rank = rankOfMatrix(H);
+    // std::cout<<"rank: "<<rank<<std::endl;
 
     // std::vector<std::vector<int>> mat{
     //     {1,1,0,0},

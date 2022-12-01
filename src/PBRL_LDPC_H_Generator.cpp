@@ -165,7 +165,7 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
     }
 
     std::cout<<"parity check matrix is successfully generated!"<<std::endl;
-    std::cout<<"codeword length(n): "<<parity_check_matrix[0].size();
+    std::cout<<"codeword length(n): "<<parity_check_matrix[0].size()<<std::endl;
     std::cout<<"parity length(k): "<<parity_check_matrix.size();
     return parity_check_matrix;
 }
