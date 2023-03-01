@@ -65,5 +65,6 @@
         "optional": "cpp",
         "string_view": "cpp",
         "sstream": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": false
 }

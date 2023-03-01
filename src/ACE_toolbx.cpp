@@ -31,71 +31,56 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
     }
 
 
-    // display(node_ace);
-    // std::cout<<"-------"<<std::endl;
     p[0].assign(cn_neighbor.size(), 10000);
     p[1].assign(vn_neighbor.size(), 10000);
     p[1][starting_v]=node_ace[1][starting_v];
     node_set_parents.clear();
     node_set_parents.push_back({-1,starting_v});
-    for (int l = 1; l <= d_ace; l++)
-    {
-        if (l % 2 == 0)
-        {
+    // layer 0 : variable node
+    for (int l = 1; l <= d_ace; l++) {
+        //[0] -> check node ; [1] -> variable node{
+        if (l % 2 == 0){
             node_type_parent = 0;
             node_type_kid = 1;
         }
-        else
-        {
+        else{
             node_type_parent = 1;
             node_type_kid = 0;
         }
-        if (node_set_parents.size() == 0)
-        {
+
+
+        if (node_set_parents.size() == 0){
             std::cout << "There is no node in parent set. Returned Success" << std::endl;
             return true;
-        }
-        
-        else
-        {
+        }      
+        else{
             node_set_kids.clear();
-            for (unsigned kk=0;kk<node_set_parents.size();kk++)
-            {
+            for (unsigned kk=0;kk<node_set_parents.size();kk++){
                 if (node_type_parent == 0)
-                {
                     his_kids = cn_neighbor[node_set_parents[kk][1]];
-                }
                 else
-                {
                     his_kids = vn_neighbor[node_set_parents[kk][1]];
-                }
-                for (const auto this_kid : his_kids)
-                {
-                    if (this_kid != node_set_parents[kk][0])
-                    {
-                        
+                for (const auto this_kid : his_kids){
+                    if (this_kid != node_set_parents[kk][0]){                        
                         p_tempt = p[node_type_parent][node_set_parents[kk][1]] + node_ace[node_type_kid][this_kid];
-                        if (p_tempt + p[node_type_kid][this_kid] - node_ace[1][starting_v] - node_ace[node_type_kid][this_kid] < eta_ace)
-                        {
+                        if (p_tempt + p[node_type_kid][this_kid] - node_ace[1][starting_v] - node_ace[node_type_kid][this_kid] < eta_ace){
                             std::cout << "Info: find ACE=" << p_tempt + p[node_type_kid][this_kid] - node_ace[1][starting_v] - node_ace[node_type_kid][this_kid] << ". Exit.." << std::endl;
                             return false;
                         }
-                        else
-                        {
-                            if (p_tempt < p[node_type_kid][this_kid])
-                            {
+                        else{
+                            if (p_tempt < p[node_type_kid][this_kid]){
                                 p[node_type_kid][this_kid]=p_tempt;
                                 not_appear = true;
-                                for (unsigned jj = 0; jj < node_set_kids.size(); jj++)
-                                {
+                                for (unsigned jj = 0; jj < node_set_kids.size(); jj++){
                                     if (node_set_kids[jj][1] == this_kid)
                                     {
+                                        // Modify the parent to the one that provides smallest p_temp
+                                        node_set_kids[jj][0]=node_set_parents[kk][1];  
                                         not_appear = false;
                                         break;
                                     }
                                 }
-                                if (not_appear)
-                                {
+                                if (not_appear){
                                     node_set_kids.push_back({node_set_parents[kk][1],this_kid});
                                 }
                             }
@@ -104,16 +89,6 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
                 }
             }
         }
-        //display part
-        // std::cout<<"l="<<l<<". "<<std::endl;
-        // std::cout<<"kid set is :"<< std::endl;
-        // for(const auto aa: node_set_kids)
-        //     std::cout<<aa[1]<<" ";
-        // std::cout<<std::endl;
-        // std::cout<<"p value is :"<<std::endl;
-        // for(const auto aa: node_set_kids)
-        //     std::cout<<p[node_type_kid][aa[1]]<<" ";
-        // std::cout<<std::endl;
         node_set_parents=node_set_kids;
     }
     //std::cout<<"Info: ACE dectection passed ..."<<starting_v<<std::endl;
