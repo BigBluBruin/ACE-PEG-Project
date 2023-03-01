@@ -57,6 +57,9 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
     unsigned row_number = proto_matrix.size();
     unsigned column_number = proto_matrix[0].size();
     int ace_try_time;
+    int total_time=10; // maximum 10000 times search
+    int residule=high_rate_row_ind+1;
+    bool find_full_rank_matrix=false;
     //first step: we design H_HRC and H_IRC together
     for (int column = 0; column <= high_rate_column_ind; column++)
     {
@@ -73,16 +76,56 @@ std::vector<std::vector<int>> ACE_PEG_generator(std::vector<std::vector<int>> pr
         {
             ace_try_time++;
             std::cout<<"Info: building ace-accepetd column circulant for column: "<<column<<", try time index: "<<ace_try_time<<"."<<std::endl;
-            // no need to do rank detection
-            column_circulant = column_circulant_generator(column_vector, cirsize);
-            temp_parity_check = parity_check_matrix;
-            add_new_colum_circulant(temp_parity_check, column_circulant);
+            if (!find_full_rank_matrix)
+            {
+                // rank condition detection needed
+                //-----------------This is new and updated part-------------------------------------
+                for(int jj=0;jj<total_time;jj++)
+                {
+                    std::cout << "Info: building full rank matrix for column: " << column << ", try time index: " << jj + 1 << "." << std::endl;
+                    column_circulant = column_circulant_generator(column_vector, cirsize);
+                    temp_parity_check = parity_check_matrix;
+                    add_new_colum_circulant(temp_parity_check, column_circulant);
+                    rank_check_matrix.clear();
+                    for (int jj = 0; jj < (high_rate_row_ind + 1) * cirsize; jj++)
+                    {
+                        rank_check_matrix.push_back(temp_parity_check[jj]);
+                    }
+                    std::cout<<"rank_check_matrix size: ("<<rank_check_matrix.size()<<", "<<rank_check_matrix[0].size()<<")."<<std::endl;
+                    int rank=rankOfMatrix(rank_check_matrix);
+                    std::cout<<"here"<<std::endl;
+                    if(rank>=(high_rate_row_ind+1-residule+1)*cirsize)
+                    {                       
+                        residule--;
+                        std::cout<<"try time "<<jj<<". Success to find full rank matrix. "<<residule<<"left. "<<std::endl;
+                        break;
+                    }
+                    else
+                    {
+                       std::cout<<"try time "<<jj<<". Fail to find full rank matrix. This rank is :"<< rank<<"--we want it to be: "<<(high_rate_row_ind+1-residule+1)*cirsize<<std::endl;
+                    }               
+                }
+                if (residule == 0)
+                {
+                    std::cout << "Success info: full rank job finished.. " << std::endl;
+                    find_full_rank_matrix = true;
+                }
+                //--------------------updated part end-----------------------------------------------
+            }
+            else
+            {
+                // no need to do rank detection
+                column_circulant = column_circulant_generator(column_vector, cirsize);
+                temp_parity_check = parity_check_matrix;
+                add_new_colum_circulant(temp_parity_check, column_circulant);
+            }
+
             // ACE detection for new variable nodes
             cn_neighors = find_cn_neighbors(temp_parity_check);
             vn_neighbors = find_vn_neighbers(temp_parity_check);
             start_point = column * cirsize;
             end_point = (column + 1) * cirsize - 1;
-            // std::cout<<"end piont.." <<end_point<<std::endl;
+            //std::cout<<"end piont.." <<end_point<<std::endl;
             ACE_detection_pass = true;
             // std::cout<<temp_parity_check.size()<<"  "<<temp_parity_check[0].size()<<std::endl;
             // std::cout<<start_point<<"  "<<end_point<<std::endl;
