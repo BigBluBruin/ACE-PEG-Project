@@ -12,7 +12,7 @@ bool ACE_detection(std::vector<std::vector<int>> vn_neighbor, std::vector<std::v
     Function returns false, otherwise
     */
 
-    //Initialization
+  //Initialization
     std::vector<std::vector<int>> node_ace(2); //[0] -> check node ; [1] -> variable node
     std::vector<std::vector<int>> p(2);        //[0] -> check node; [1] -> variable node
     int p_tempt;
